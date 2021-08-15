@@ -4,11 +4,9 @@ const apiEndpoint = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMD
 export const getMovieById = async (movieId ="tt3896198") => 
     await fetch(`${apiEndpoint}&i=${movieId}`)
         .then(res => res.json())
-        .then(res => res)
         .catch(err => err);
 
 export const getMovieBySearchTerm = async term =>
     await fetch(`${apiEndpoint}&s=${term}`)
         .then(res => res.json())
-        .then(res => res)
         .catch(err => err);
