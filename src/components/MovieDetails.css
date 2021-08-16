@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* .movie_details_wrapper {
+    display: none;
+} */
+
+.movie_details_wrapper
+/* .display  */
+{
+    width: 60%;
+    border: .04rem solid rgb(64, 101, 101);
+    display: flex;
+}
+
+.movie_details_col{
+    padding: .5rem;
+}
+
+.movie_details_title_row {
+    display: flex;
+    width: 100%;
+}
+
+#movie_details_title {
+    margin-top: 1.5rem;
+    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#movie_details_rating {
+    margin: auto;
+    color:cornflowerblue;
+    font-size: x-large;
+    font-weight: 700;
+}
+
+.movie_details_pills {
+    max-width: 60%;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.movie_details_pill {
+    padding-left: .7rem;
+    padding-right: .7rem;
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+    margin-right: .4rem;
+    margin-bottom: .4rem;
+    background-color:rgba(128, 128, 128, 0.5);
+    border-radius: 30px;
+}
+
+
+.movie_details_plot {
+    margin-top: 2rem;
+}
+
+.movie_details_actors {
+    margin-top: 2rem;
+}
