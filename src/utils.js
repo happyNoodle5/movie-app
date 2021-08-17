@@ -32,7 +32,7 @@ export const getRatings = (obj) => {
       });
     const { Value } = ratingObject;
     return Value;
-}
+};
 
 export const lowerCase = (data) => 
     data.length
