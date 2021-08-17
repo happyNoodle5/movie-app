@@ -13,6 +13,12 @@
     width: 60%;
     border: .04rem solid rgb(64, 101, 101);
     display: flex;
+    /* z-index: 20; */
+}
+
+.details_poster_size {
+    width: 100%;
+    height: auto;
 }
 
 .movie_details_col{
@@ -61,5 +67,13 @@
 }
 
 .movie_details_actors {
+    margin-top: 2rem;
+}
+
+.movie_details_director {
+    margin-top: 2rem;
+}
+
+.movie_details_writer {
     margin-top: 2rem;
 }
