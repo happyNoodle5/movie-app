@@ -1,8 +1,10 @@
-import "./MovieCard.css";
+import "./MovieButton.css";
 import PropTypes from 'prop-types';
 
-export const MovieButton = ({handleShow, type}) => {
-    <button id="movie_card_button" onClick={handleShow} className="movie_card_button">{type}</button>
+export const MovieButton = ({type}) => {
+    return(
+        <button id="movie_card_button" className="movie_card_button">{type}</button>
+    );
 };
 
 MovieButton.defaultProps = {

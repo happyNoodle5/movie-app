@@ -1,12 +1,13 @@
 import "./MovieCard.css";
 import PropTypes from 'prop-types';
 
-export const MovieCard = ({title, type, posterUrl}) => {
+export const MovieCard = ({title, posterUrl, children}) => {
     return(
         <div className="movie_card_wrapper">
             <img className="poster_size" src={`${posterUrl}`} alt={`${title} poster`} />
             <div className="movie_card_info">
                 <p id="movie_card_title">{title}</p>
+                {children}
             </div>
         </div>
     );
