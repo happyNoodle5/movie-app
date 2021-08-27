@@ -2,11 +2,9 @@ import "./MovieDetails.css";
 import "./MovieCard.js"
 import PropTypes from 'prop-types';
 
-// export const openDetails = ()
-
-export const MovieDetails = ({posterUrl, detailsTitle, rated, runtime, genre, year, plot, actors, rating, director, writer}) => {
+export const MovieDetails = ({posterUrl, detailsTitle, rated, runtime, genre, year, plot, actors, rating, director, writer, imdbID}) => {
     return(
-        <div className="movie_details_wrapper">
+        <div id={`${imdbID}`}className="movie_details_wrapper">
             <img className="details_poster_size" src={`${posterUrl}`} alt={`${detailsTitle} poster`} />
             <div className="movie_details_col">
                 <div className="movie_details_title_row">
@@ -40,17 +38,17 @@ export const MovieDetails = ({posterUrl, detailsTitle, rated, runtime, genre, ye
 };
 
 MovieDetails.defaultProps = {
-    posterUrl: 'https://m.media-amazon.com/images/M/MV5BNjM0NTc0NzItM2FlYS00…UtNTA2ZWIzODc2OTgxXkEyXkFqcGdeQXVyNTgwNzIyNzg@._V1_SX300.jpg',
-    detailsTitle: 'Guardians of the Galaxy Vol. 2',
-    rated: 'PG-13',
-    runtime: '136 min',
-    genre: 'Action, Adventure, Comedy',
-    year: '2017',
-    plot: 'The Guardians struggle to keep together as a team while dealing with their personal family issues, notably Star-Lord\'s encounter with his father the ambitious celestial being Ego.',
-    actors: 'Chris Pratt, Zoe Saldana, Dave Bautista',
-    rating: '7.6/10',
-    director: 'James Gunn',
-    writer: 'James Gunn, Dan Abnett, Andy Lanning'
+    posterUrl: '',
+    detailsTitle: '',
+    rated: '',
+    runtime: '',
+    genre: '',
+    year: '',
+    plot: '',
+    actors: '',
+    rating: '',
+    director: '',
+    writer: ''
 };
 
 MovieDetails.propTypes = {
@@ -65,4 +63,4 @@ MovieDetails.propTypes = {
     rating: PropTypes.string,
     director: PropTypes.string,
     writer: PropTypes.string
-}
+};

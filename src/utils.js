@@ -1,54 +1,43 @@
-// import { MovieCard } from './components/MovieCard.js';
-// import { MovieDetails } from './components/MovieDetails.js'
+const apiKey = process.env.REACT_APP_OMDBAPI; // Tip: typically you'll want to keep any keys out of git
+const baseApiURL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 
-const apiEndpoint = `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}`;
+/* Write an arrow function called getMoviesBySearchTerm that takes a search string as
+input and uses fetch and async/await to get an array of movies with a matching title from OMDb API. */
+export const getMoviesBySearchTerm = async (searchTerm) => {
+    const searchURL = `${baseApiURL}s=${searchTerm}`; // based on the omdbapi docs we need to use s query string
 
-export const getMovieById = async (movieId ="tt3896198") => {
-    const fetchMovie = await fetch(`${apiEndpoint}&i=${movieId}`);
-    const movie = await fetchMovie.json();
-    return movie;
-    };
+    const response = await fetch(searchURL);
 
-export const getMovieBySearchTerm = async (term) => {
-    await fetch(`${apiEndpoint}&s=${term}`)
-        .then((res) => res.json())
-        .catch((err) => err);
-    };
+    if (!response.ok) {
+        return Promise.reject(response.statusText);
+    }
 
-export const saveData = (newData) =>
-    newData.length
-        ? sessionStorage.setItem("movies", JSON.stringify(newData))
-        : sessionStorage.setItem("movie", JSON.stringify(newData));
+    const result = await response.json();
 
-export const retrieveStorageData = (key) => {
-    const getDataByKey = sessionStorage.getItem(key);
-    return JSON.parse(getDataByKey);
+    if (result.Response === "True") {
+        return result;
+    }
+
+    return [];
 };
 
-export const getRatings = (obj) => {
-    const { ratings } = JSON.parse(sessionStorage.getItem(obj));
-    const ratingObject = ratings.find(obj => {
-        return JSON.stringify(obj.Source === "Internet Movie Database")
-      });
-    const { Value } = ratingObject;
-    return Value;
+/* Write another arrow function called getMovieDetailsById that takes a valid OMDb movie id as input and
+uses fetch and async/await to get an object of detailed information about the specified movie. */
+export const getMovieDetailsById = async (searchId) => {
+    const searchURL = `${baseApiURL}i=${searchId}`; // based on the omdbapi docs we need to use i query string
+
+    const response = await fetch(searchURL);
+
+    if (!response.ok) {
+        return Promise.reject(response.statusText);
+    }
+
+    const result = await response.json();
+
+    if (result) {
+        console.log(result);
+        return result;
+    }
+
+    return {};
 };
-
-export const lowerCase = (data) => 
-    data.length
-    ? data.map((obj) =>
-    Object.keys(obj).reduce((value, key) => {
-        value[key.toLowerCase()] = obj.key;
-        return value;
-    })
-    )
-    : Object.keys(data).reduce((value, key) => {
-        value[key.toLowerCase()] = data[key];
-        return value;
-        
-    }, {});
-
-// WHY IS IT RETURNING AS NULL?
-// export const openMovieDetails = () => {
-//     document.getElementById('movie_card_button');
-// }

@@ -1,49 +1,75 @@
+import { useEffect, useState } from "react";
 import './App.css';
-import { MovieCard } from './components/MovieCard'
-import { MovieDetails } from './components/MovieDetails'
-import { MovieButton } from './components/MovieButton.js'
-import { getMovieById, saveData, retrieveStorageData, lowerCase, getRatings, openMovieDetails } from './utils'
+import Spinner from "./components/Spinner";
+import MovieList from './components/MovieList.js';
+import SearchBar from './components/SearchBar';
+import { getMoviesBySearchTerm } from "./utils";
+import Paginator from './components/Paginator'
 
-// in JSX, you ALWAYS need a parent, but using FRAGMENTS allows us to use <> as a parent when you don't necessarily need a parent for styles
-// className takes a string
-// style takes an object - start with a curly brace to declare that we will use an object and then use a second curly brace to for the object itself
-function App() {
-  window.onload = async () => {
-    const movie = await getMovieById();
-    const convertData = await lowerCase(movie);
-    convertData && saveData(convertData);
-  };
+function App () {
 
-  // console.log(openMovieDetails);
-  // console.log(MovieButton);
+  const [searchTerm, setSearchTerm] = useState("bat");
+  const [isLoading, setIsLoading] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [resultPage, setResultPage] = useState(1);
+  const [totalResults, setTotalResults] = useState("-")
 
-  const {title, type, poster, rated, runtime, genre, year, plot, actors, director, writer} = retrieveStorageData("movie");
-  const rating = getRatings("movie");
-  console.log(retrieveStorageData("movie"));
+  // const useNewSearchTerm = (newTerm) => {
+  //   let newTerms = [...searchTerm, newTerm];
+  //   setSearchTerm(newTerms)
+  // }
 
-  const Welcome = ({greeting}) => (
-    <header style={{padding: "1.5rem 0"}}>
-      <h1 style={{textAlign: "center", textTransform: "uppercase"}}>{greeting}</h1>
-    </header>
-  );
+  useEffect(() => {
+    setIsLoading(true);
 
-  const Wrapper = ({children, bodyBgColor}) => (
-    <div style={{margin: "0 auto", padding: "2rem", backgroundColor: bodyBgColor ? bodyBgColor:"#eee", maxWidth: "60rem", display: "flex", justifyContent: "center"}}>
-        {children}
-    </div>
-)
+    // console.log(searchTerm);
 
-return (
-    <div style={{backgroundColor: "slategray", height: "100vh"}}>
-      <Welcome greeting="look up guardians" />
-      <Wrapper>
-        <MovieCard title={title} posterUrl={poster}>
-          <MovieButton type={type} />
-        </MovieCard>
-      </Wrapper>
-      <MovieDetails posterUrl={poster} detailsTitle={title} rating={rating} rated={rated} runtime={runtime} genre={genre} year={year} plot={plot} actors={actors} director={director} writer={writer} />
-    </div>
-  );
+    getMoviesBySearchTerm(searchTerm, { page: resultPage })
+
+      .then((result) => {
+        console.log(result);
+        setMovies(result.Search);
+        setTotalResults(result.totalResults);
+        setResultPage()
+        setError(null);
+      })
+
+      .catch((err) => {
+        setError(err);
+        setMovies([]);
+        setTotalResults("-");
+        console.error("Error:", err);
+      })
+
+      .finally(() => {
+        setIsLoading(false);
+      });
+}, [searchTerm, resultPage]); //empty array means execute only when useEffect is called -- adding a dependency in the array (i.e. searchTerm), will have this re-run any time the dependancy value changes
+
+if (isLoading) {
+  return <Spinner />
 }
 
+if (error) {
+  return (<div>Error</div>);
+}
+
+return (
+  <div>
+    <SearchBar handleTermUpdate={(term) => {
+      setSearchTerm(term);
+    }} />
+    <MovieList movies={movies} />
+    <Paginator currentPage="1" totalPages="1000" handlePageChange={(direction) => {
+      setResultPage(resultPage + direction);
+    }} />
+  </div>
+);
+
+// const {title, type, poster, rated, runtime, genre, year, plot, actors, director, writer} = retrieveStorageData("movies");
+//     const rating = getRatings("movie");
+//     console.log(retrieveStorageData("movie"));
+
+}
 export default App;
